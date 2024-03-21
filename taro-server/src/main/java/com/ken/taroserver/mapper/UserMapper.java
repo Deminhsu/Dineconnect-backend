@@ -16,4 +16,7 @@ public interface UserMapper {
     @Select("select * from user where username = #{username}")
     public User getByUsername(String username);
 
+    @Insert("insert into user_favorite (user_id, restaurant_id) VALUES (#{userId}, #{restaurantId})")
+    public void insertRestaurant(Integer restaurantId, Integer userId);
+
 }

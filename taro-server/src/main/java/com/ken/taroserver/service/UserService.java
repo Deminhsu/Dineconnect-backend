@@ -7,4 +7,6 @@ import com.ken.taropojo.entity.User;
 public interface UserService {
     User oursLogin(UserLoginDTO userLoginDTO);
     void signUp(UserRegisterDTO userRegisterDTO);
+    void favoriteRestaurant(Integer restaurantId, Integer userId);
+
 }

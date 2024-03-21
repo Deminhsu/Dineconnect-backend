@@ -68,4 +68,8 @@ public class UserServiceImpl implements UserService {
         return user;
 
     }
+
+    public void favoriteRestaurant(Integer restaurantId, Integer userId) {
+        userMapper.insertRestaurant(restaurantId, userId);
+    }
 }

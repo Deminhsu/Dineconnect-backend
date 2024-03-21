@@ -64,4 +64,13 @@ public class UserController {
                 .build();
         return Result.success(userLoginVO);
     }
+
+    @PostMapping("/favorite_restaurant")
+    @ApiOperation("收藏餐廳")
+    public Result<String> favoriteRestaurant(@RequestBody Integer restaurantId, Integer userId) {
+        userService.favoriteRestaurant(restaurantId, userId);
+        return Result.success();
+
+    }
+
 }
