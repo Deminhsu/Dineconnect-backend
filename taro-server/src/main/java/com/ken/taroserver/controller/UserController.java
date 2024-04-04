@@ -73,4 +73,9 @@ public class UserController {
 
     }
 
+    public Result<String> quickAssign(@RequestBody Integer userIDSelf, Integer userIDOthers) {
+        userService.quickAssign(userIDSelf, userIDOthers);
+        return Result.success();
+    }
+
 }

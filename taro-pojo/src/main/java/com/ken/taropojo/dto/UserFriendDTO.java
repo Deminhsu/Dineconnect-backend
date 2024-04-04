@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @ApiModel(description = "用戶使用好友功能傳遞的data model")
 public class UserFriendDTO {
-    private long userid;
-    private long friendID;
+    private long userId;
+    private long friendId;
+    private int status;
 }

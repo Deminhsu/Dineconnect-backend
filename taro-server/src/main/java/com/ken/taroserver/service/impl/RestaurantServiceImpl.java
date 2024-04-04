@@ -2,6 +2,7 @@ package com.ken.taroserver.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ import java.util.Random;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
 
+    @Autowired
+    private RestaurantMapper restaurantMapper;
 
     private static final String API_KEY = "AIzaSyCMphdAs0HK11bkLCHVOsdTqTDzRk7Dy8U";
 
@@ -50,18 +53,37 @@ public class RestaurantServiceImpl implements RestaurantService {
                       .rating(String.valueOf(result.rating)) // 假设rating是String
                       .url(photoUrl) // 使用构建的图片 URL
                       .build();
+                // 将VO转换为实体并保存到数据库，这里省略了转换的细节
+              Restaurant restaurantEntity = convertToEntity(vo);
+              restaurantMapper.insert(restaurantEntity);
+                // 设置数据库自动生成的ID
+              vo.setId(restaurantEntity.getId());
               restaurants.add(vo);
           }
 
           // 随机挑选5间餐厅（如果少于5间则返回所有）
-          Collections.shuffle(restaurants);
-          return restaurants.subList(0, Math.min(restaurants.size(), 5));
+        //   Collections.shuffle(restaurants);
+        //   return restaurants.subList(0, Math.min(restaurants.size(), 5));
+          return restaurants;
       } catch (Exception e) {
           e.printStackTrace();
           return Collections.emptyList();
       }
-}
+    }
+    // 假设有一个将VO转换为实体的方法
+    private Restaurant convertToEntity(RestaurantSearchVO vo) {
+        // 实现转换逻辑
+        Restaurant restaurant = new Restaurant();
+        BeanUtils.copyProperties(vo, restaurant);
+        return restaurant;
+    }
 
+    @Override
+    public List<String> searchUserIDWantToEat(String rest_id) {
+        List<String> user_ids = restaurantMapper.getByRestId(rest_id);
+        return user_ids;
+    }
+    
 
   
 }

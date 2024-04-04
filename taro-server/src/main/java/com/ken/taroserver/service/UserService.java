@@ -8,5 +8,6 @@ public interface UserService {
     User oursLogin(UserLoginDTO userLoginDTO);
     void signUp(UserRegisterDTO userRegisterDTO);
     void favoriteRestaurant(Integer restaurantId, Integer userId);
+    void quickAssign(Integer userIDSelf, Integer userIDOthers);
 
 }

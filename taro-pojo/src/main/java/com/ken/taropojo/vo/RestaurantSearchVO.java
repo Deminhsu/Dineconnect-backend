@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @ApiModel(description = "餐廳搜尋返回資料")
 public class RestaurantSearchVO implements Serializable{
-    // @ApiModelProperty("主键值")
-    // private Integer id;
+    @ApiModelProperty("主键值")
+    private Long id;
 
     @ApiModelProperty("餐廳名稱")
     private String name;
