@@ -74,6 +74,6 @@ public class UserServiceImpl implements UserService {
     }
 
     public void quickAssign(Integer userIDSelf, Integer userIDOthers) {
-        userMapper.
+        // userMapper.
     }
 }

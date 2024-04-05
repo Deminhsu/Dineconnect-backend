@@ -22,13 +22,13 @@ public class FriendController {
     private FriendService friendService;
 
     // 申請中的好友列表
-    @GetMapping("/{userId}")
+    @GetMapping("/apply/{userId}")
     public Result<List<User>> listApplyFriends(@PathVariable Long userId) {
         List<User> applyUsers = friendService.listApplyFriends(userId);
         return Result.success(applyUsers);
     }
     // 好友列表
-    @GetMapping("/{userId}")
+    @GetMapping("/list/{userId}")
     public Result<List<User>> listFriends(@PathVariable Long userId) {
         List<User> friends =friendService.listFriends(userId);
         return Result.success(friends);
@@ -36,7 +36,7 @@ public class FriendController {
 
     
     // 申請好友 
-    @PostMapping("/sentApplyfriend")
+    @PostMapping("/sentApply")
     public Result<String> sentApplyFriends(@RequestBody UserFriendDTO userFriendDTO) {
         friendService.sentApplyFriends(userFriendDTO);
         return Result.success();
@@ -44,7 +44,7 @@ public class FriendController {
     
 
     // 確認添加好友, checking
-    @PostMapping("/addfriend")
+    @PostMapping()
     public Result<String> addFriends(@RequestBody UserFriendDTO userFriendDTO) {
         friendService.addFriends(userFriendDTO);
         return Result.success();

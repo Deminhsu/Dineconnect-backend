@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface UserProfileMapper {
-    @Select("select * from user where id = #{id}")
+    @Select("select * from users where id = #{id}")
     public User getByUserId(Long id);
 }

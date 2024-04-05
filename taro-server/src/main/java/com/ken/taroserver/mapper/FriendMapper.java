@@ -16,15 +16,15 @@ public interface FriendMapper {
     // @Select("")
     // public List<User> getFriendIdsByUserId(Long currentId);
 
-    @Insert("insert into friend (user_id, friend_id, status) VALUES(#{userId}, #{friendId}, #{status})")
+    @Insert("insert into friends (user_id, friend_id, status) VALUES(#{userId}, #{friendId}, #{status})")
     public void addByUserIds(UserFriendDTO userFriendDTO);
 
-    @Select("select friend_id from friend where user_id = #{userId} and status = 0")
+    @Select("select friend_id from friends where user_id = #{userId} and status = 0")
 	public List<User> getApplyFriendIdsByUserId(Long userId);
 
-    @Select("select friend_id from friend where user_id = #{userId} and status = 1")
+    @Select("select friend_id from friends where user_id = #{userId} and status = 1")
     public List<User> getFriendIdsByUserId(Long userId);
 
-    @Delete("delete from friend where user_id = #{userId} and friend_id = #{friendId} ")
+    @Delete("delete from friends where user_id = #{userId} and friend_id = #{friendId} ")
     public void deleteFriendByUserId(Integer userId, Integer friendId);
 }

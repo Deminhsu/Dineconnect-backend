@@ -11,10 +11,10 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface RestaurantMapper {
 
-  @Insert("insert into restaurant (rest_name, rest_rating, image_url) VALUES (#{rest_name}, #{rest_rating}, #{image_url})")
+  @Insert("insert into restaurants (rest_name, rest_rating, image_url) VALUES (#{rest_name}, #{rest_rating}, #{image_url})")
 	public void insert(Restaurant restaurantEntity);
 
-  @Select("select user_id from status_want_to_eat where rest_id = #{rest_id}")
+  @Select("select user_id from status_want_to_eats where rest_id = #{rest_id}")
 	public List<String> getByRestId(String rest_id);
 
     
