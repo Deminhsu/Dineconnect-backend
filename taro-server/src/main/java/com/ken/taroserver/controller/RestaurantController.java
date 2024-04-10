@@ -1,10 +1,12 @@
 package com.ken.taroserver.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ken.taropojo.entity.Restaurant;
 import com.ken.taropojo.entity.User;
 import com.ken.tarocommon.result.Result;
 import com.ken.taropojo.vo.RestaurantSearchVO;
@@ -16,12 +18,13 @@ import java.util.List;
 @RequestMapping("/restaurant")
 public class RestaurantController {
 
+    @Autowired
     private RestaurantService restaurantService;
     
     @GetMapping("/{name}/{location}")
-    public Result<List<RestaurantSearchVO>> searchRestaurants(@PathVariable String name, @PathVariable String location) {
-        List<RestaurantSearchVO> restaurantVOs = restaurantService.searchRestaurants(name, location);
-        return Result.success(restaurantVOs);
+    public Result<List<Restaurant>> searchRestaurants(@PathVariable String name, @PathVariable String location) {
+        List<Restaurant> restaurants = restaurantService.searchRestaurants(name, location);
+        return Result.success(restaurants);
     }
 
     @GetMapping("/{restId}")

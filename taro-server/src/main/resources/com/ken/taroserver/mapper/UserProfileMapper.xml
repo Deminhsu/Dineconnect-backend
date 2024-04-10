@@ -4,26 +4,26 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ken.taroserver.mapper.UserProfileMapper">
+<update id="update" parameterType="com.ken.taropojo.dto.UserDTO">
+  UPDATE users
+  <set>
+    <if test="username != null and username != ''">
+      username = #{username},
+    </if>
+    <if test="sex != null and sex != ''">
+      sex = #{sex},
+    </if>
+    <if test="age != null and age != 0">
+      age = #{age},
+    </if>
+    <if test="avatar != null and avatar != ''">
+      image_url = #{avatar},
+    </if>
+    <if test="email != null and email != ''">
+      email = #{email},
+    </if>
+  </set>
+  WHERE user_id = #{userId}
+</update>
 
-  <update id="update" parameterType="com.ken.taropojo.dto.UserDTO">
-    UPDATE users
-    <set>
-      <if test="username != null">
-        username = #{username},
-      </if>
-      <if test="sex != null">
-        sex = #{sex},
-      </if>
-      <if test="age != 0">
-        age = #{age},
-      </if>
-      <if test="avatar != null">
-        image_url = #{avatar},
-      </if>
-      <if test="email != null">
-        email = #{email},
-      </if>
-    </set>
-    WHERE user_id = #{userId}
-  </update>
 </mapper>

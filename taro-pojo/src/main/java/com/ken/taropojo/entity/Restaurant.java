@@ -14,12 +14,10 @@ import java.io.Serializable;
 public class Restaurant implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Long id;
-    private String restaurantName;
+    private Long restId;
+    private String restName;
     private String rating; 
     private String url;
     private String address;
-    private LocalDateTime createTime;
-    private LocalDateTime updateTime;
 
 }

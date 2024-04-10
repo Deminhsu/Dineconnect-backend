@@ -29,15 +29,16 @@ public class RestaurantServiceImpl implements RestaurantService {
     private RestaurantMapper restaurantMapper;
 
     private static final String API_KEY = "AIzaSyCMphdAs0HK11bkLCHVOsdTqTDzRk7Dy8U";
+    private static final int DEFAULT_RADIUS = 10000;
 
     @Override
-    public List<RestaurantSearchVO> searchRestaurants(String name, String location) {
+    public List<Restaurant> searchRestaurants(String name, String location) {
       GeoApiContext context = new GeoApiContext.Builder().apiKey(API_KEY).build();
 
       try {
           String query = name + " in " + location;
-          PlacesSearchResponse response = PlacesApi.textSearchQuery(context, query).await();
-          List<RestaurantSearchVO> restaurants = new ArrayList<>();
+          PlacesSearchResponse response = PlacesApi.textSearchQuery(context, query).radius(DEFAULT_RADIUS).await();
+          List<Restaurant> restaurants = new ArrayList<>();
           for (PlacesSearchResult result : response.results) {
               // 构建图片 URL
               String photoUrl = null;
@@ -49,16 +50,18 @@ public class RestaurantServiceImpl implements RestaurantService {
               }
 
               // 创建并添加 RestaurantSearchVO 实例
-              RestaurantSearchVO vo = RestaurantSearchVO.builder()
-                      .name(result.name)
+              Restaurant vo = Restaurant.builder()
+                      .restName(result.name)
                       .rating(String.valueOf(result.rating)) // 假设rating是String
+                      .address(result.formattedAddress)
                       .url(photoUrl) // 使用构建的图片 URL
                       .build();
                 // 将VO转换为实体并保存到数据库，这里省略了转换的细节
-              Restaurant restaurantEntity = convertToEntity(vo);
-              restaurantMapper.insert(restaurantEntity);
+              // Restaurant restaurantEntity = convertToEntity(vo);
+              
+              restaurantMapper.insert(vo);
                 // 设置数据库自动生成的ID
-              vo.setId(restaurantEntity.getId());
+              // vo.setId(restaurantEntity.getId());
               restaurants.add(vo);
           }
 

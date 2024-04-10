@@ -20,8 +20,8 @@ public class RestaurantSearchVO implements Serializable{
     @ApiModelProperty("餐廳名稱")
     private String name;
 
-    // @ApiModelProperty("餐廳地址")
-    // private String address;
+    @ApiModelProperty("餐廳地址")
+    private String address;
 
     @ApiModelProperty("餐廳評分")
     private String rating;
