@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "taro.jwt")
+@ConfigurationProperties(prefix = "dinner.jwt")
 public class JwtProperties {
     // 管理員
 //    private String adminSecretKey;

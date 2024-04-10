@@ -1,6 +1,7 @@
 package com.ken.taroserver.controller;
 
 import com.ken.tarocommon.result.Result;
+import com.ken.taropojo.dto.UserDTO;
 import com.ken.taropojo.dto.UserFriendDTO;
 import com.ken.taropojo.entity.User;
 import com.ken.taroserver.service.FriendService;
@@ -23,20 +24,20 @@ public class FriendController {
 
     // 申請中的好友列表
     @GetMapping("/apply/{userId}")
-    public Result<List<User>> listApplyFriends(@PathVariable Long userId) {
-        List<User> applyUsers = friendService.listApplyFriends(userId);
+    public Result<List<UserDTO>> listApplyFriends(@PathVariable Long userId) {
+        List<UserDTO> applyUsers = friendService.listApplyFriends(userId);
         return Result.success(applyUsers);
     }
     // 好友列表
-    @GetMapping("/list/{userId}")
-    public Result<List<User>> listFriends(@PathVariable Long userId) {
-        List<User> friends =friendService.listFriends(userId);
+    @GetMapping("/{userId}")
+    public Result<List<UserDTO>> listFriends(@PathVariable Long userId) {
+        List<UserDTO> friends = friendService.listFriends(userId);
         return Result.success(friends);
     }
 
     
     // 申請好友 
-    @PostMapping("/sentApply")
+    @PostMapping("/apply")
     public Result<String> sentApplyFriends(@RequestBody UserFriendDTO userFriendDTO) {
         friendService.sentApplyFriends(userFriendDTO);
         return Result.success();
@@ -52,7 +53,7 @@ public class FriendController {
 
     
     // 刪除好友、拒絕好友
-    @DeleteMapping("{userID}/{friendID}")
+    @DeleteMapping("{userId}/{friendId}")
     public Result<String> deleteFriends(@PathVariable Integer userId, @PathVariable Integer friendId) {
         friendService.deleteFriends(userId, friendId);
         return Result.success();

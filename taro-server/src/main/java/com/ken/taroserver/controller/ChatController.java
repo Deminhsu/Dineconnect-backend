@@ -17,7 +17,7 @@ import com.ken.taroserver.mapper.ChatMapper;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping
+@RequestMapping("/chat")
 @Slf4j
 public class ChatController {
 
@@ -25,7 +25,7 @@ public class ChatController {
     private ChatMapper chatMapper; // 假设这个Mapper有方法来获取聊天记录
 
     // 获取两个用户之间的聊天记录
-    @GetMapping("/chat/history/{userId}/{friendId}")
+    @GetMapping("/history/{userId}/{friendId}")
     public Result<List<ChatMessage>> getChatHistory(@PathVariable Long userId, @PathVariable Long friendId) {
         // 获取由用户发送给朋友的消息
         List<ChatMessage> userToFriend = chatMapper.selectChatMessagesBySenderId(userId, friendId);

@@ -32,12 +32,15 @@ public class ChatEndpoint {
     @Autowired
     ChatMapper chatMapper;
 
+    public static Set<Long> getOnlineUsers() {
+        return onlineUsers.keySet();
+    }
+
     @OnOpen
     public void onOpen(Session session, @PathParam("userId") Long userId) {
         onlineUsers.put(userId, session);
         String message = MessageUtil.getMessage(true, null, listFriends(userId));
         broadcast(message);
-
         
     }
 

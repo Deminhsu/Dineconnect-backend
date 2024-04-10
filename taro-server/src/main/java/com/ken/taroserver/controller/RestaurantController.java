@@ -1,13 +1,13 @@
 package com.ken.taroserver.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ken.taropojo.entity.User;
 import com.ken.tarocommon.result.Result;
 import com.ken.taropojo.vo.RestaurantSearchVO;
-import com.ken.taropojo.vo.RestaurantVO;
 import com.ken.taroserver.service.RestaurantService;
 
 import java.util.List;
@@ -18,17 +18,20 @@ public class RestaurantController {
 
     private RestaurantService restaurantService;
     
-    @PostMapping("/search")
-    public Result<List<RestaurantSearchVO>> searchRestaurants(@RequestBody String name, String location) {
+    @GetMapping("/{name}/{location}")
+    public Result<List<RestaurantSearchVO>> searchRestaurants(@PathVariable String name, @PathVariable String location) {
         List<RestaurantSearchVO> restaurantVOs = restaurantService.searchRestaurants(name, location);
         return Result.success(restaurantVOs);
     }
 
-    @PostMapping("/search_who_want_to_eat")
-    public Result<List<String>> searchUserIDWantToEat(@RequestBody String rest_id) {
-        List<String> user_ids =  restaurantService.searchUserIDWantToEat(rest_id);
-        return Result.success(user_ids);
+    @GetMapping("/{restId}")
+    public Result<List<User>> searchUserIDWantToEat(@PathVariable String restId) {
+        List<User> users =  restaurantService.searchUserIDWantToEat(restId);
+
+        return Result.success(users);
     }
+
+    // later send apply
 
 
 

@@ -6,6 +6,7 @@ import com.ken.tarocommon.properties.JwtProperties;
 import com.ken.tarocommon.utils.JwtUtil;
 import com.ken.taropojo.dto.UserLoginDTO;
 import com.ken.taropojo.dto.UserRegisterDTO;
+import com.ken.taropojo.dto.UserRestaurantDTO;
 import com.ken.taropojo.entity.User;
 import com.ken.taroserver.service.UserService;
 import io.swagger.annotations.Api;
@@ -16,11 +17,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ken.taropojo.vo.RestaurantVO;
 import com.ken.taropojo.vo.UserLoginVO;
 import com.ken.tarocommon.result.Result;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/user")
@@ -34,7 +42,7 @@ public class UserController {
     @Autowired
     private JwtProperties jwtProperties;
 
-    @PostMapping("/register")
+    @PostMapping("/signup")
     @ApiOperation("註冊")
     public Result<String> register(@RequestBody UserRegisterDTO userRegisterDTO) {
         log.info("用戶註冊");
@@ -42,40 +50,52 @@ public class UserController {
         return Result.success();
     }
 
-    @PostMapping("/login")
+    @PostMapping("/signin")
     @ApiOperation("登入")
     public Result<UserLoginVO> login(@RequestBody UserLoginDTO userLoginDTO) {
         log.info("用戶登陸");
         User user = userService.oursLogin(userLoginDTO);
 
+
         // 登入成功，生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
         // { user_id : id }
-        claims.put(JwtClaimsConstant.USER_ID,user.getId());
+        claims.put(JwtClaimsConstant.USER_ID, user.getUserId());
         String token = JwtUtil.createJWT(
                 jwtProperties.getUserSecretKey(),
                 jwtProperties.getUserTtl(),
                 claims);
 
         UserLoginVO userLoginVO = UserLoginVO.builder()
-                .id(user.getId())
+                .id(user.getUserId())
                 .userName(user.getUsername())
                 .token(token)
                 .build();
         return Result.success(userLoginVO);
     }
-
-    @PostMapping("/favorite_restaurant")
+    @PostMapping("/signout")
+    @ApiOperation("登出")
+    public Result<String> signout(@RequestBody Long userId) {
+        log.info("用户登出");
+        userService.signout(userId);
+        return Result.success("登出成功");
+    }
+       
+    @PostMapping("/restaurant")
     @ApiOperation("收藏餐廳")
-    public Result<String> favoriteRestaurant(@RequestBody Integer restaurantId, Integer userId) {
-        userService.favoriteRestaurant(restaurantId, userId);
+    public Result<String> favoriteRestaurant(@RequestBody UserRestaurantDTO userRestaurantDTO) {
+        userService.favoriteRestaurant(userRestaurantDTO);
         return Result.success();
 
     }
 
-    public Result<String> quickAssign(@RequestBody Integer userIDSelf, Integer userIDOthers) {
-        userService.quickAssign(userIDSelf, userIDOthers);
-        return Result.success();
+    // todo
+    // list like restaurant
+    @GetMapping("/restaurant/{userId}")
+    public Result<List<RestaurantVO>> getFavoriteRestaurant(@PathVariable long userId) {
+        List<RestaurantVO> restaurants = userService.getFavoriteRestaurant(userId);
+        return Result.success(restaurants);
     }
-
+    
+    
 }

@@ -1,6 +1,7 @@
 package com.ken.taroserver.service.impl;
 
 import com.ken.tarocommon.context.BaseContext;
+import com.ken.taropojo.dto.UserDTO;
 import com.ken.taropojo.dto.UserFriendDTO;
 import com.ken.taropojo.entity.User;
 import com.ken.taroserver.mapper.FriendMapper;
@@ -28,26 +29,30 @@ public class FriendServiceImpl implements FriendService {
     public void sentApplyFriends(UserFriendDTO userFriendDTO) {
         userFriendDTO.setStatus(0);
         friendMapper.addByUserIds(userFriendDTO);
+        friendMapper.friendAddByUserIds(userFriendDTO);
     }
         
     @Override
     public void addFriends(UserFriendDTO userFriendDTO) {
         userFriendDTO.setStatus(1);
-        friendMapper.addByUserIds(userFriendDTO);
+        friendMapper.updateToFriendByUserIds(userFriendDTO);
+        friendMapper.updateFriendToUserByUserIds(userFriendDTO);
+       
     }
     @Override
-    public List<User> listApplyFriends(Long userId) {
+    public List<UserDTO> listApplyFriends(Long userId) {
         return friendMapper.getApplyFriendIdsByUserId(userId);
     }
 
     @Override
-    public List<User> listFriends(Long userId) {
+    public List<UserDTO> listFriends(Long userId) {
         return friendMapper.getFriendIdsByUserId(userId);
     }
 
     @Override
     public void deleteFriends(Integer userId, Integer friendId) {
         friendMapper.deleteFriendByUserId(userId, friendId);
+        friendMapper.deleteFriendByUserId(friendId, userId);
     }
 
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ken.taropojo.entity.Restaurant;
+import com.ken.taropojo.entity.User;
 import com.ken.taropojo.vo.RestaurantSearchVO;
 import com.ken.taropojo.vo.RestaurantVO;
 import com.ken.taroserver.mapper.RestaurantMapper;
@@ -79,9 +80,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public List<String> searchUserIDWantToEat(String rest_id) {
-        List<String> user_ids = restaurantMapper.getByRestId(rest_id);
-        return user_ids;
+    public List<User> searchUserIDWantToEat(String rest_id) {
+        List<User> users = restaurantMapper.getUserByRestId(rest_id);
+        return users;
     }
     
 

@@ -39,10 +39,10 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
         ////////////////////////////////////////////////////////////
         // 2. 校驗
         try {
-            log.info("jwt校驗{}",token);
+            log.info("jwt test: {}",token);
             Claims claims = JwtUtil.parseJWT(jwtProperties.getUserSecretKey(), token);
             Long userId = Long.valueOf(claims.get(JwtClaimsConstant.USER_ID).toString());
-            log.info("用戶id: {}",token);
+            log.info("user id: {}", userId);
             BaseContext.setCurrentId(userId);
 
             // 3. 通過，放行

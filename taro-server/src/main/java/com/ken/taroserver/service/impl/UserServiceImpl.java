@@ -5,7 +5,9 @@ import com.ken.tarocommon.exception.AccountNotFoundException;
 import com.ken.tarocommon.exception.PasswordErrorException;
 import com.ken.taropojo.dto.UserLoginDTO;
 import com.ken.taropojo.dto.UserRegisterDTO;
+import com.ken.taropojo.dto.UserRestaurantDTO;
 import com.ken.taropojo.entity.User;
+import com.ken.taropojo.vo.RestaurantVO;
 import com.ken.taroserver.mapper.UserMapper;
 import com.ken.taroserver.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -44,6 +47,7 @@ public class UserServiceImpl implements UserService {
         String username = userLoginDTO.getUsername();
         String password = userLoginDTO.getPassword();
 
+        userMapper.changeStateByUserName(username);
         //1、根据用户名查询数据库中的数据
         User user = userMapper.getByUsername(username);
 
@@ -69,11 +73,25 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public void favoriteRestaurant(Integer restaurantId, Integer userId) {
-        userMapper.insertRestaurant(restaurantId, userId);
+    public void favoriteRestaurant(UserRestaurantDTO userRestaurantDTO) {
+        userMapper.insertRestaurant(userRestaurantDTO);
     }
 
     public void quickAssign(Integer userIDSelf, Integer userIDOthers) {
         // userMapper.
+    }
+
+    @Override
+    public List<RestaurantVO> getFavoriteRestaurant(long userId) {
+        // TODO Auto-generated method stub
+        return userMapper.listFavoriteRestaurant(userId);
+        
+    }
+
+    @Override
+    public void signout(Long userId) {
+        // 假设这是登出逻辑的一部分
+        userMapper.updateUserState(userId);
+        // 可能还有其他登出处理逻辑，比如使 JWT 无效等
     }
 }

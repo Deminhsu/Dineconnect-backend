@@ -9,13 +9,13 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Long id;
+    private Long userId;
     private String username;
 //    private String name;
     private String password;

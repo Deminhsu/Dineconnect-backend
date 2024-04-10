@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/Taro
+    url: jdbc:mysql://localhost:3306/dinner
     username: root
     password: a12345
 #  security:
@@ -14,12 +14,14 @@ mybatis:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
 
-taro:
+dinner:
   jwt:
-    user-secret-key: chung
-    user-ttl: 7200000 # 2 hours
+    user-secret-key: ilovedinner
+    user-ttl: 21600000 # 6 hours
     user-token-name: authentication
 #    user-token-name: Authorization
+file:
+  upload-dir: ./image/
 
 # springdoc-openapi项目配置
 #springdoc:

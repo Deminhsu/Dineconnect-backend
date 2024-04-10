@@ -1,6 +1,7 @@
 package com.ken.taroserver.mapper;
 
 import com.ken.taropojo.entity.Restaurant;
+import com.ken.taropojo.entity.User;
 
 import java.util.List;
 
@@ -14,8 +15,8 @@ public interface RestaurantMapper {
   @Insert("insert into restaurants (rest_name, rest_rating, image_url) VALUES (#{rest_name}, #{rest_rating}, #{image_url})")
 	public void insert(Restaurant restaurantEntity);
 
-  @Select("select user_id from status_want_to_eats where rest_id = #{rest_id}")
-	public List<String> getByRestId(String rest_id);
+  @Select("select users.* from status_want_to_eats join users on users.user_id = status_want_to_eats.user_id where rest_id = #{rest_id}")
+	public List<User> getUserByRestId(String rest_id);
 
     
 }
