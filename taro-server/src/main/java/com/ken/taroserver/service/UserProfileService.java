@@ -7,5 +7,6 @@ import com.ken.taropojo.dto.UserProfileDTO;
 
 public interface UserProfileService {
     UserProfileDTO getUserProfile(Long userId);
-    void updateUserProfile(Long userId, MultipartFile image, UserDTO userProfileDTO);
+    void updateUserProfile(UserDTO userProfileDTO);
+    void updateUserImage(MultipartFile image, Long userId);
 }

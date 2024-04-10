@@ -45,49 +45,57 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 
 
-
     @Override
-    public void updateUserProfile(Long userId, MultipartFile image, UserDTO userProfileDTO) {
-        UserDTO user = userProfileMapper.getByUserId(userId);
+    public void updateUserProfile(UserDTO userProfileDTO) {
+        // 如果上传了新的图片，则保存该图片并更新图片URL
+        // 设置userId，这个值是操作的关键
+        // userProfileDTO.setUserId(userId);
 
-        // 確保上傳目錄存在
-        File uploadDirFile = new File(uploadDir);
-        if (!uploadDirFile.exists()) {
-            uploadDirFile.mkdirs();
-        }
-
-        String filePath = null;
-        if (image != null && !image.isEmpty()) {
-            String originalFilename = image.getOriginalFilename();
-            String extname = originalFilename.substring(originalFilename.lastIndexOf("."));
-            String newFileName = UUID.randomUUID().toString() + extname;
-            filePath = uploadDir + newFileName; // 圖片的完整路徑
-            log.info("新的文件名: {}", newFileName);
-
-            try {
-                image.transferTo(new File(filePath));
-            } catch (IOException e) {
-                log.error("Failed to save image", e);
-               throw new RuntimeException("Failed to save image", e);
-           }   
-        }
-
-        // 使用Lombok Builder模式来更新用户实体
-        UserDTO updatedUser = user.builder()
-                                .username(userProfileDTO.getUsername() == null ? user.getUsername() : userProfileDTO.getUsername())
-                                .age(userProfileDTO.getAge() == 0 ? user.getAge() : userProfileDTO.getAge())
-                                .sex(userProfileDTO.getSex() == null ? user.getSex() : userProfileDTO.getSex())
-                                .avatar(filePath != null ? filePath : user.getAvatar()) // 使用新的头像路径，如果没有上传新图片则保持原有的路径
-                                .build();
-        
-        // user.setUsername(userProfileDTO.getUsername());
-        // user.setAge(userProfileDTO.getAge());
-        // user.setSex(userProfileDTO.getSex());
-        // user.setAvatar(userProfileDTO.getAvatar());
-
-        userProfileMapper.update(user); // 更新用戶資料
+        // 更新用户资料，MyBatis将使用动态SQL进行更新
+        log.info("使用者id: {}", userProfileDTO.getUserId());
+        userProfileMapper.update(userProfileDTO);
     }
+    @Override
+    public void updateUserImage(MultipartFile image, Long userId) {
+        UserDTO userProfileDTO = userProfileMapper.getByUserId(userId);
+        // 如果上传了新的图片，则保存该图片并更新图片URL
+        if (image != null && !image.isEmpty()) {
+            String newAvatarPath = saveImage(image); // 保存图片并返回文件路径
+            userProfileDTO.setAvatar(newAvatarPath); // 更新DTO中的avatar字段
+        }
+        
+        // 设置userId，这个值是操作的关键
+        // userProfileDTO.setUserId(userId);
 
+        // 更新用户资料，MyBatis将使用动态SQL进行更新
+        log.info("使用者id: {}", userProfileDTO.getUserId());
+        userProfileMapper.updateImage(userProfileDTO);
+    }
+    private String saveImage(MultipartFile image) {
+        // 创建上传目录，如果它不存在的话
+        File uploadDirFile = new File(uploadDir);
+        if (!uploadDirFile.exists() && !uploadDirFile.mkdirs()) {
+            log.error("Unable to create upload directory");
+            throw new RuntimeException("Unable to create upload directory");
+        }
+
+        // 创建新的文件名
+        String originalFilename = image.getOriginalFilename();
+        String extname = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf(".")) : "";
+        String newFileName = UUID.randomUUID() + extname;
+        String filePath = uploadDir + newFileName; // 新图片的完整路径
+        log.info("New file name: {}", newFileName);
+
+        // 保存图片到指定的路径
+        try {
+            File newFile = new File(filePath);
+            image.transferTo(newFile);
+            return newFile.getAbsolutePath(); // 返回图片路径
+        } catch (IOException e) {
+            log.error("Failed to save image: {}", newFileName, e);
+            throw new RuntimeException("Failed to save image", e);
+        }
+    }
 
 
 }

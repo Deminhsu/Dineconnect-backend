@@ -7,17 +7,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+// @Builder(toBuilder = true)
+// @NoArgsConstructor
+// @AllArgsConstructor
 @Data
-@Builder(toBuilder = true)
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserDTO implements Serializable {
+public class UserDTO {
     private Long userId;
     private String username;
     private int age;
     private String sex;
     private String email;
     private String avatar;
-    private Integer status;
     // 不包括password, createTime, updateTime
 }
