@@ -1,5 +1,6 @@
 package com.ken.taroserver.controller;
 
+import com.ken.tarocommon.context.BaseContext;
 import com.ken.tarocommon.result.Result;
 import com.ken.taropojo.dto.UserDTO;
 import com.ken.taropojo.dto.UserProfileDTO;
@@ -26,8 +27,9 @@ public class UserProfileController {
     @Autowired
     private UserProfileService userProfileService;
 
-    @GetMapping("/{userId}")
-    public Result<UserProfileDTO> getUserProfile(@PathVariable Long userId) {
+    @GetMapping()
+    public Result<UserProfileDTO> getUserProfile() {
+        Long userId = BaseContext.getCurrentId();
         UserProfileDTO userProfileDTO = userProfileService.getUserProfile(userId);
         return Result.success(userProfileDTO);
     }
@@ -35,12 +37,15 @@ public class UserProfileController {
 
    @PutMapping()
    public Result<String> updateUserProfile(@RequestBody UserDTO userProfileDTO) {
-       userProfileService.updateUserProfile(userProfileDTO);
-       return Result.success();
+        Long userId = BaseContext.getCurrentId();
+        userProfileDTO.setUserId(userId);
+        userProfileService.updateUserProfile(userProfileDTO);
+        return Result.success();
    }
-   @PutMapping("/image/{userId}")
-   public Result<String> updateUserImage(@PathVariable Long userId, @RequestParam(value = "image") MultipartFile image) {
-       userProfileService.updateUserImage(image, userId);
-       return Result.success();
+   @PutMapping("/image")
+   public Result<String> updateUserImage(@RequestParam(value = "image") MultipartFile image) {
+        Long userId = BaseContext.getCurrentId();
+        userProfileService.updateUserImage(image, userId);
+        return Result.success();
    }
 }

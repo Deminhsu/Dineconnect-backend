@@ -33,9 +33,14 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
         String token = request.getHeader(jwtProperties.getUserTokenName());
         //////////////////////////////////////////////////////
         HandlerMethod handlerMethod=(HandlerMethod)handler;
-        if(handlerMethod.getBean().getClass().getName().equals("org.springdoc.webmvc.ui.SwaggerConfigResource")){
-            return  true;
-        }
+        // if (token == null || token.trim().isempty()) {
+        //     log.warn("jwt token is missing in the request");
+        //     response.senderror(httpservletresponse.sc_unauthorized, "unauthorized: no jwt token provided");
+        //     return false;
+        // }
+        // if(handlerMethod.getBean().getClass().getName().equals("org.springdoc.webmvc.ui.SwaggerConfigResource")){
+        //     return  true;
+        // }
         ////////////////////////////////////////////////////////////
         // 2. 校驗
         try {
@@ -48,7 +53,7 @@ public class JwtTokenUserInterceptor implements HandlerInterceptor {
             // 3. 通過，放行
             return true;
         } catch (Exception ex) {
-            // 4. 不通過，響應401狀態碼
+            // 4. 不通過，響應401狀態碼            log.error("JWT token validation failed", ex);
             response.setStatus(401);
             return false;
         }

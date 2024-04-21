@@ -2,6 +2,7 @@ package com.ken.taroserver.controller;
 
 
 import com.ken.tarocommon.constant.JwtClaimsConstant;
+import com.ken.tarocommon.context.BaseContext;
 import com.ken.tarocommon.properties.JwtProperties;
 import com.ken.tarocommon.utils.JwtUtil;
 import com.ken.taropojo.dto.UserLoginDTO;
@@ -75,24 +76,27 @@ public class UserController {
     }
     @PostMapping("/signout")
     @ApiOperation("登出")
-    public Result<String> signout(@RequestBody Long userId) {
+    public Result<String> signout() {
         log.info("用户登出");
+        Long userId = BaseContext.getCurrentId(); 
         userService.signout(userId);
         return Result.success("登出成功");
     }
        
     @PostMapping("/restaurant")
     @ApiOperation("收藏餐廳")
-    public Result<String> favoriteRestaurant(@RequestBody UserRestaurantDTO userRestaurantDTO) {
-        userService.favoriteRestaurant(userRestaurantDTO);
+    public Result<String> addFavoriteRestaurant(@RequestBody UserRestaurantDTO userRestaurantDTO) {
+        Long userId = BaseContext.getCurrentId(); 
+        userService.favoriteRestaurant(userRestaurantDTO, userId);
         return Result.success();
 
     }
 
     // todo
     // list like restaurant
-    @GetMapping("/restaurant/{userId}")
-    public Result<List<RestaurantVO>> getFavoriteRestaurant(@PathVariable long userId) {
+    @GetMapping("/restaurant")
+    public Result<List<RestaurantVO>> getFavoriteRestaurant() {
+        Long userId = BaseContext.getCurrentId(); 
         List<RestaurantVO> restaurants = userService.getFavoriteRestaurant(userId);
         return Result.success(restaurants);
     }

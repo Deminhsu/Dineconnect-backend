@@ -39,7 +39,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         userProfileDTO.setUsername(user.getUsername());
         userProfileDTO.setAge(user.getAge());
         userProfileDTO.setSex(user.getSex());
-        userProfileDTO.setAvatar(user.getAvatar());
+        userProfileDTO.setImageUrl(user.getImageUrl());
         return userProfileDTO;
     }
 
@@ -61,14 +61,14 @@ public class UserProfileServiceImpl implements UserProfileService {
         // 如果上传了新的图片，则保存该图片并更新图片URL
         if (image != null && !image.isEmpty()) {
             String newAvatarPath = saveImage(image); // 保存图片并返回文件路径
-            userProfileDTO.setAvatar(newAvatarPath); // 更新DTO中的avatar字段
+            userProfileDTO.setImageUrl(newAvatarPath); // 更新DTO中的avatar字段
         }
         
         // 设置userId，这个值是操作的关键
         // userProfileDTO.setUserId(userId);
 
         // 更新用户资料，MyBatis将使用动态SQL进行更新
-        log.info("使用者id: {}", userProfileDTO.getUserId());
+        log.info("使用者id: {}", userId);
         userProfileMapper.updateImage(userProfileDTO);
     }
     private String saveImage(MultipartFile image) {

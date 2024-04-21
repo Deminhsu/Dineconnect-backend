@@ -21,7 +21,7 @@ dinner:
     user-token-name: authentication
 #    user-token-name: Authorization
 file:
-  upload-dir: ./image/
+  upload-dir: "C:\\Users\\ken91\\Documents\\College\\Dineconnect-backend\\image\\"
 
 # springdoc-openapi项目配置
 #springdoc:

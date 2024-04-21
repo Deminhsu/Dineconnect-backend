@@ -26,17 +26,17 @@ public class FriendServiceImpl implements FriendService {
         // }
         
     @Override
-    public void sentApplyFriends(UserFriendDTO userFriendDTO) {
+    public void sentApplyFriends(UserFriendDTO userFriendDTO, Long userId) {
         userFriendDTO.setStatus(0);
-        friendMapper.addByUserIds(userFriendDTO);
-        friendMapper.friendAddByUserIds(userFriendDTO);
+        friendMapper.addByUserIds(userFriendDTO, userId);
+        friendMapper.friendAddByUserIds(userFriendDTO, userId);
     }
         
     @Override
-    public void addFriends(UserFriendDTO userFriendDTO) {
+    public void addFriends(UserFriendDTO userFriendDTO, Long userId) {
         userFriendDTO.setStatus(1);
-        friendMapper.updateToFriendByUserIds(userFriendDTO);
-        friendMapper.updateFriendToUserByUserIds(userFriendDTO);
+        friendMapper.updateToFriendByUserIds(userFriendDTO, userId);
+        friendMapper.updateFriendToUserByUserIds(userFriendDTO, userId);
        
     }
     @Override
@@ -50,7 +50,7 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public void deleteFriends(Integer userId, Integer friendId) {
+    public void deleteFriends(Long userId, Long friendId) {
         friendMapper.deleteFriendByUserId(userId, friendId);
         friendMapper.deleteFriendByUserId(friendId, userId);
     }

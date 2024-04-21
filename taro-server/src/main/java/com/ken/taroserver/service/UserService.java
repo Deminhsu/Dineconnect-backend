@@ -11,7 +11,7 @@ import com.ken.taropojo.vo.RestaurantVO;
 public interface UserService {
     User oursLogin(UserLoginDTO userLoginDTO);
     void signUp(UserRegisterDTO userRegisterDTO);
-    void favoriteRestaurant(UserRestaurantDTO userRestaurantDTO);
+    void favoriteRestaurant(UserRestaurantDTO userRestaurantDTO, Long userId);
     void quickAssign(Integer userIDSelf, Integer userIDOthers);
     List<RestaurantVO> getFavoriteRestaurant(long userId);
     void signout(Long userId);

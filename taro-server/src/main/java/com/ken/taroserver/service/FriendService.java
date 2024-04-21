@@ -8,14 +8,14 @@ import java.util.List;
 
 public interface FriendService {
 
-	void sentApplyFriends(UserFriendDTO userFriendDTO);
-    void addFriends(UserFriendDTO userFriendDTO);
+	void sentApplyFriends(UserFriendDTO userFriendDTO, Long userId);
+    void addFriends(UserFriendDTO userFriendDTO, Long userId);
 
     List<UserDTO> listApplyFriends(Long userId);
 
     List<UserDTO> listFriends(Long userId);
 
-	void deleteFriends(Integer userId, Integer friendId);
+	void deleteFriends(Long userId, Long friendId);
 
     
 

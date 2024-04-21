@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -22,11 +23,23 @@ public interface UserMapper {
     @Select("select * from users where username = #{username}")
     public User getByUsername(String username);
 
-    @Insert("insert into favorite_restaurants (user_id, rest_id) VALUES (#{userId}, #{restaurantId})")
-    public void insertRestaurant(UserRestaurantDTO userRestaurantDTO);
+    // @Insert("insert into favorite_restaurants (user_id, rest_id) VALUES (#{userId}, #{restaurantId})")
+    // public void insertRestaurant(UserRestaurantDTO userRestaurantDTO, Long userId);
+    @Insert("insert into favorite_restaurants (user_id, rest_id) VALUES (#{userId}, #{userRestaurantDTO.restaurantId})")
+    public void insertRestaurant(@Param("userRestaurantDTO") UserRestaurantDTO userRestaurantDTO, @Param("userId") Long userId);
 
-    @Select("select Restaurants.* from favorite_restaurants join restaurants on Restaurants.rest_id = favorite_restaurants.rest_id where favorite_restaurants.userId = #{userId}")
+    @Select("SELECT " +
+        "restaurants.rest_id AS id, " +
+        "restaurants.rest_name AS name, " +
+        "restaurants.rest_rating AS rating, " +
+        "restaurants.image_url AS url, " +
+        "restaurants.address " +
+        "FROM favorite_restaurants " +
+        "JOIN restaurants ON restaurants.rest_id = favorite_restaurants.rest_id " +
+        "WHERE favorite_restaurants.user_id = #{userId}")
     public List<RestaurantVO> listFavoriteRestaurant(long userId);
+
+
 
     @Update("Update users set status = 1 where username = #{username}")
     public void changeStateByUserName(String username);

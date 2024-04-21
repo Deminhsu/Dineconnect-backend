@@ -1,10 +1,12 @@
 package com.ken.taroserver.controller;
 
+import com.ken.tarocommon.context.BaseContext;
 import com.ken.tarocommon.result.Result;
 import com.ken.taropojo.dto.UserDTO;
 import com.ken.taropojo.dto.UserFriendDTO;
 import com.ken.taropojo.entity.User;
 import com.ken.taroserver.service.FriendService;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user/friends")
+@RequestMapping("/friends")
 @Slf4j
 public class FriendController {
 
@@ -23,14 +25,16 @@ public class FriendController {
     private FriendService friendService;
 
     // 申請中的好友列表
-    @GetMapping("/apply/{userId}")
-    public Result<List<UserDTO>> listApplyFriends(@PathVariable Long userId) {
+    @GetMapping("/apply")
+    public Result<List<UserDTO>> listApplyFriends() {
+        Long userId = BaseContext.getCurrentId();
         List<UserDTO> applyUsers = friendService.listApplyFriends(userId);
         return Result.success(applyUsers);
     }
     // 好友列表
-    @GetMapping("/{userId}")
-    public Result<List<UserDTO>> listFriends(@PathVariable Long userId) {
+    @GetMapping()
+    public Result<List<UserDTO>> listFriends() {
+        Long userId = BaseContext.getCurrentId();
         List<UserDTO> friends = friendService.listFriends(userId);
         return Result.success(friends);
     }
@@ -39,7 +43,8 @@ public class FriendController {
     // 申請好友 
     @PostMapping("/apply")
     public Result<String> sentApplyFriends(@RequestBody UserFriendDTO userFriendDTO) {
-        friendService.sentApplyFriends(userFriendDTO);
+        Long userId = BaseContext.getCurrentId();
+        friendService.sentApplyFriends(userFriendDTO, userId);
         return Result.success();
     }
     
@@ -47,14 +52,16 @@ public class FriendController {
     // 確認添加好友, checking
     @PostMapping()
     public Result<String> addFriends(@RequestBody UserFriendDTO userFriendDTO) {
-        friendService.addFriends(userFriendDTO);
+        Long userId = BaseContext.getCurrentId();
+        friendService.addFriends(userFriendDTO, userId);
         return Result.success();
     }
 
     
     // 刪除好友、拒絕好友
-    @DeleteMapping("{userId}/{friendId}")
-    public Result<String> deleteFriends(@PathVariable Integer userId, @PathVariable Integer friendId) {
+    @DeleteMapping("/{friendId}")
+    public Result<String> deleteFriends(@PathVariable Long friendId) {
+        Long userId = BaseContext.getCurrentId();
         friendService.deleteFriends(userId, friendId);
         return Result.success();
     }

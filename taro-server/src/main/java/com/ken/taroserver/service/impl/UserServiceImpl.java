@@ -73,8 +73,8 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    public void favoriteRestaurant(UserRestaurantDTO userRestaurantDTO) {
-        userMapper.insertRestaurant(userRestaurantDTO);
+    public void favoriteRestaurant(UserRestaurantDTO userRestaurantDTO, Long userId) {
+        userMapper.insertRestaurant(userRestaurantDTO, userId);
     }
 
     public void quickAssign(Integer userIDSelf, Integer userIDOthers) {

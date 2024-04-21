@@ -31,12 +31,12 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         log.info("開始註冊自定義攔截器...");
         registry.addInterceptor(jwtTokenUserInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/**/login")
-                .excludePathPatterns("/**/register")
+                .excludePathPatterns("/**/signup")
+                .excludePathPatterns("/**/signin")
                 .excludePathPatterns("/doc.html")
                 .excludePathPatterns("/doc.html/**")
                 .excludePathPatterns(
-                    List.of("/user/**",
+                    List.of(
                         "/swagger-ui/**",
                         "/doc.html/**",
                         "/swagger-resources/**",
