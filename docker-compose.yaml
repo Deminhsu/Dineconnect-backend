@@ -1,28 +1,36 @@
 version: '3.8'
+
 services:
-  taro-server:
-    build: ./taro-server
+  app:
+    build: ./taro-server  # 确保这个路径是Dockerfile所在的路径
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/yourdbname
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=password
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/dinner?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: a12345
+      SPRING_JWT_USER_SECRET_KEY: ilovedinner
+      FILE_UPLOAD_DIR: /var/app/images  # 更新映射到容器内的目录
+    volumes:
+      - "./image:/var/app/images"  # 将本地image文件夹映射到容器的指定目录
     depends_on:
-      - mysql
+      - db
 
-  mysql:
-    image: mysql:8.0
-    environment:
-      - MYSQL_DATABASE=yourdbname
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
-      - MYSQL_ROOT_PASSWORD=password
+  db:
+    image: mysql:5.7
     ports:
       - "3306:3306"
+    environment:
+      MYSQL_DATABASE: 'dinner'
+      MYSQL_USER: 'root'
+      MYSQL_PASSWORD: 'a12345'
+      MYSQL_ROOT_PASSWORD: 'a12345'
     volumes:
-      - mysql_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # 确保 init.sql 在相同目录下
 
 volumes:
-  mysql_data:
+  db_data:
+    driver: local
+
+
