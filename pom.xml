@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.ken</groupId>
+    <artifactId>taro-project</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <java.version>17</java.version>
+        <spring.boot.version>3.1.5</spring.boot.version>
+        <taro.version>0.0.1-SNAPSHOT</taro.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 其他可能的依赖 -->
+            <dependency>
+                <groupId>com.ken</groupId>
+                <artifactId>taro-common</artifactId>
+                <version>${taro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ken</groupId>
+                <artifactId>taro-pojo</artifactId>
+                <version>${taro.version}</version>
+            </dependency>
+            <!-- Spring Boot starter parent dependency -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 其他构建配置 -->
+</project>

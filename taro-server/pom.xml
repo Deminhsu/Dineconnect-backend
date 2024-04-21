@@ -146,8 +146,19 @@
             <artifactId>google-maps-services</artifactId>
             <version>2.2.0</version>
         </dependency>
-
+    <dependencies>
+    <!-- 省略其他依赖 -->
+    <dependency>
+            <groupId>com.ken</groupId>
+            <artifactId>taro-common</artifactId>
+            </dependency>
+        <dependency>
+            <groupId>com.ken</groupId>
+            <artifactId>taro-pojo</artifactId>
+             </dependency>
     </dependencies>
+</dependencies>
+
 
     <build>
         <plugins>
