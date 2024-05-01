@@ -67,7 +67,8 @@ public class RestaurantServiceImpl implements RestaurantService {
                       .url(photoUrl) // 使用构建的图片 URL
                       .build();
                 // 将VO转换为实体并保存到数据库，这里省略了转换的细节
-              // Restaurant restaurantEntity = convertToEntity(vo)
+
+               ;
 
               Restaurant existingRestaurant = restaurantMapper.findByRestName(result.name);
               if (existingRestaurant != null) {
@@ -75,6 +76,8 @@ public class RestaurantServiceImpl implements RestaurantService {
                   restaurants.add(existingRestaurant);
                   continue; // 继续处理下一个搜索结果
               }
+              restaurantMapper.insertRes(vo);
+              vo = restaurantMapper.findByRestName(result.name);
 
 
 
