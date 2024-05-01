@@ -2,6 +2,9 @@ package com.ken.taroserver.service.impl;
 
 import java.util.List;
 
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
+import com.google.maps.model.LatLng;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +39,15 @@ public class RestaurantServiceImpl implements RestaurantService {
       GeoApiContext context = new GeoApiContext.Builder().apiKey(API_KEY).build();
 
       try {
+          GeocodingResult[] geocodingResults = GeocodingApi.geocode(context, location).await();
+          LatLng latLng = null;
+          if (geocodingResults.length > 0) {
+              latLng = geocodingResults[0].geometry.location;
+          } else {
+              latLng = new LatLng(23.55874413856708, 120.47181855726839); //直接預設中正大學位置
+          }
           String query = name + " in " + location;
-          PlacesSearchResponse response = PlacesApi.textSearchQuery(context, query).radius(DEFAULT_RADIUS).await();
+          PlacesSearchResponse response = PlacesApi.textSearchQuery(context, query).location(latLng).radius(DEFAULT_RADIUS).await();
           List<Restaurant> restaurants = new ArrayList<>();
           for (PlacesSearchResult result : response.results) {
               // 构建图片 URL
@@ -57,18 +67,27 @@ public class RestaurantServiceImpl implements RestaurantService {
                       .url(photoUrl) // 使用构建的图片 URL
                       .build();
                 // 将VO转换为实体并保存到数据库，这里省略了转换的细节
-              // Restaurant restaurantEntity = convertToEntity(vo);
-              
-              restaurantMapper.insert(vo);
+              // Restaurant restaurantEntity = convertToEntity(vo)
+
+              Restaurant existingRestaurant = restaurantMapper.findByRestName(result.name);
+              if (existingRestaurant != null) {
+                  // 如果数据库中已存在该餐厅信息，则直接添加到结果列表中
+                  restaurants.add(existingRestaurant);
+                  continue; // 继续处理下一个搜索结果
+              }
+
+
+
+//              restaurantMapper.insert(vo);
                 // 设置数据库自动生成的ID
               // vo.setId(restaurantEntity.getId());
               restaurants.add(vo);
           }
 
           // 随机挑选5间餐厅（如果少于5间则返回所有）
-        //   Collections.shuffle(restaurants);
-        //   return restaurants.subList(0, Math.min(restaurants.size(), 5));
-          return restaurants;
+           Collections.shuffle(restaurants);
+           return restaurants.subList(0, Math.min(restaurants.size(), 5));
+//          return restaurants;
       } catch (Exception e) {
           e.printStackTrace();
           return Collections.emptyList();

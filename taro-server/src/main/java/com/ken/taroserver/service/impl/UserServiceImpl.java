@@ -44,12 +44,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public User oursLogin(UserLoginDTO userLoginDTO) {
-        String username = userLoginDTO.getUsername();
+        String email = userLoginDTO.getEmail();
         String password = userLoginDTO.getPassword();
 
-        userMapper.changeStateByUserName(username);
+        userMapper.changeStateByEmail(email);
         //1、根据用户名查询数据库中的数据
-        User user = userMapper.getByUsername(username);
+        User user = userMapper.getByEmail(email);
 
         if (user == null) {
             // 用户名不存在

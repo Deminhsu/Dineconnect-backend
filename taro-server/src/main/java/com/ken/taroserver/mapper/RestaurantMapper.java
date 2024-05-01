@@ -21,6 +21,8 @@ public interface RestaurantMapper {
 
   @Select("select users.* from status_want_to_eats join users on users.user_id = status_want_to_eats.user_id where rest_id = #{rest_id}")
 	public List<User> getUserByRestId(String rest_id);
+  @Select("select * from restaurants where rest_name = #{name}")
+  Restaurant findByRestName(String name);
 
     
 }

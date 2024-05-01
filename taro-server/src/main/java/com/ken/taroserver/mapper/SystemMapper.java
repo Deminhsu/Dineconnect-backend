@@ -24,6 +24,6 @@ public interface SystemMapper {
   
   // @Select("selsect * from users where state = 1")
   // List<User> getUsersByState();
-  @Select("SELECT * FROM users WHERE status = 1 AND id <> #{userId}")
+  @Select("SELECT * FROM users WHERE status = 1 AND user_id <> #{userId}")
   List<UserDTO> getUsersByStateExcludingUser(@Param("userId") Integer userIDSelf);
 }

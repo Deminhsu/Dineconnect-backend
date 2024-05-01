@@ -20,8 +20,8 @@ public interface UserMapper {
             "VALUES (#{username}, #{password}, #{email}, #{createTime}, #{updateTime})")
     public void signUp(User user);
 
-    @Select("select * from users where username = #{username}")
-    public User getByUsername(String username);
+    @Select("select * from users where email = #{email}")
+    public User getByEmail(String email);
 
     // @Insert("insert into favorite_restaurants (user_id, rest_id) VALUES (#{userId}, #{restaurantId})")
     // public void insertRestaurant(UserRestaurantDTO userRestaurantDTO, Long userId);
@@ -41,8 +41,8 @@ public interface UserMapper {
 
 
 
-    @Update("Update users set status = 1 where username = #{username}")
-    public void changeStateByUserName(String username);
+    @Update("Update users set status = 1 where email = #{email}")
+    public void changeStateByEmail(String email);
 
     @Update("UPDATE users SET state = 0 WHERE id = #{userId}")
     void updateUserState(Long userId);

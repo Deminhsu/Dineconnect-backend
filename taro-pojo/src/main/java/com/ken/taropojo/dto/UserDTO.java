@@ -16,7 +16,7 @@ public class UserDTO {
     private String username;
     private int age;
     private String sex;
-    private String email;
+//    private String email;
     private String imageUrl;
     // 不包括password, createTime, updateTime
 }

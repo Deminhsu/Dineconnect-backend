@@ -53,7 +53,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
         // 更新用户资料，MyBatis将使用动态SQL进行更新
         log.info("使用者id: {}", userProfileDTO.getUserId());
-        userProfileMapper.update(userProfileDTO);
+        userProfileMapper.updateUserProfile(userProfileDTO);
     }
     @Override
     public void updateUserImage(MultipartFile image, Long userId) {
