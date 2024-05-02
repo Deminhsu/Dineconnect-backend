@@ -22,13 +22,13 @@ public class RestaurantController {
     private RestaurantService restaurantService;
     
     @GetMapping("/{name}/{location}")
-    public Result<List<Restaurant>> searchRestaurants(@PathVariable String name, @PathVariable String location) {
+    public Result<List<Restaurant>> getRestaurants(@PathVariable String name, @PathVariable String location) {
         List<Restaurant> restaurants = restaurantService.searchRestaurants(name, location);
         return Result.success(restaurants);
     }
 
     @GetMapping("/{restId}")
-    public Result<List<User>> searchUserIDWantToEat(@PathVariable String restId) {
+    public Result<List<User>> getUsersWantToEat(@PathVariable String restId) {
         List<User> users =  restaurantService.searchUserIDWantToEat(restId);
 
         return Result.success(users);

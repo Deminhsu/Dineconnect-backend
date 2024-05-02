@@ -94,4 +94,9 @@ public class UserServiceImpl implements UserService {
         userMapper.updateUserState(userId);
         // 可能还有其他登出处理逻辑，比如使 JWT 无效等
     }
+
+    @Override
+    public void deleteFavoriteRestaurant(long userId, long restId){
+        userMapper.deleteFavoriteRestaurant(userId, restId);
+    }
 }

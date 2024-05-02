@@ -6,11 +6,7 @@ import com.ken.taropojo.vo.RestaurantVO;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface UserMapper {
@@ -46,5 +42,8 @@ public interface UserMapper {
 
     @Update("UPDATE users SET state = 0 WHERE id = #{userId}")
     void updateUserState(Long userId);
+
+    @Delete("delete from favorite_restaurants where user_id = #{userId} and rest_id = #{restId}")
+    void deleteFavoriteRestaurant(long userId, long restId);
 
 }

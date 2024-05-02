@@ -26,14 +26,14 @@ public class FriendController {
 
     // 申請中的好友列表
     @GetMapping("/apply")
-    public Result<List<UserDTO>> listApplyFriends() {
+    public Result<List<UserDTO>> getApplyFriends() {
         Long userId = BaseContext.getCurrentId();
         List<UserDTO> applyUsers = friendService.listApplyFriends(userId);
         return Result.success(applyUsers);
     }
     // 好友列表
     @GetMapping()
-    public Result<List<UserDTO>> listFriends() {
+    public Result<List<UserDTO>> getFriends() {
         Long userId = BaseContext.getCurrentId();
         List<UserDTO> friends = friendService.listFriends(userId);
         return Result.success(friends);

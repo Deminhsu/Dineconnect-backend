@@ -15,4 +15,5 @@ public interface UserService {
     void quickAssign(Integer userIDSelf, Integer userIDOthers);
     List<RestaurantVO> getFavoriteRestaurant(long userId);
     void signout(Long userId);
+    void deleteFavoriteRestaurant(long userId, long restId);
 }
