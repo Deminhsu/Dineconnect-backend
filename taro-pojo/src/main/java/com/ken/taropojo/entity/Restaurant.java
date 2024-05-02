@@ -13,10 +13,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Restaurant implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+//    private static final long serialVersionUID = 1L;
     private Long restId;
     private String restName;
-    private String rating; 
+    private String rating;
     private String url;
     private String address;
 
