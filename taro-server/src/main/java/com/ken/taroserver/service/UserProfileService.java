@@ -9,4 +9,5 @@ public interface UserProfileService {
     UserProfileDTO getUserProfile(Long userId);
     void updateUserProfile(UserDTO userProfileDTO);
     void updateUserImage(MultipartFile image, Long userId);
+    String getUserImagePath(Long userId);
 }

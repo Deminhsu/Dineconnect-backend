@@ -40,7 +40,7 @@ public interface UserMapper {
     @Update("Update users set status = 1 where email = #{email}")
     public void changeStateByEmail(String email);
 
-    @Update("UPDATE users SET state = 0 WHERE id = #{userId}")
+    @Update("UPDATE users SET status = 0 WHERE user_id = #{userId}")
     void updateUserState(Long userId);
 
     @Delete("delete from favorite_restaurants where user_id = #{userId} and rest_id = #{restId}")

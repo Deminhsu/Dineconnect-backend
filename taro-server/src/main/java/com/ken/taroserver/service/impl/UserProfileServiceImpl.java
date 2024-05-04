@@ -71,9 +71,20 @@ public class UserProfileServiceImpl implements UserProfileService {
         log.info("使用者id: {}", userId);
         userProfileMapper.updateImage(userProfileDTO);
     }
+
+    @Override
+    public String getUserImagePath(Long userId){
+        UserDTO userProfileDTO = userProfileMapper.getByUserId(userId);
+        return userProfileDTO.getImageUrl();
+    }
+
+
+
     private String saveImage(MultipartFile image) {
         // 创建上传目录，如果它不存在的话
+//        System.out.println(uploadDir);
         File uploadDirFile = new File(uploadDir);
+        uploadDirFile.mkdirs();
         if (!uploadDirFile.exists() && !uploadDirFile.mkdirs()) {
             log.error("Unable to create upload directory");
             throw new RuntimeException("Unable to create upload directory");
@@ -83,7 +94,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         String originalFilename = image.getOriginalFilename();
         String extname = originalFilename != null ? originalFilename.substring(originalFilename.lastIndexOf(".")) : "";
         String newFileName = UUID.randomUUID() + extname;
-        String filePath = uploadDir + newFileName; // 新图片的完整路径
+        String filePath = uploadDir + "\\" + newFileName; // 新图片的完整路径
         log.info("New file name: {}", newFileName);
 
         // 保存图片到指定的路径
@@ -96,6 +107,4 @@ public class UserProfileServiceImpl implements UserProfileService {
             throw new RuntimeException("Failed to save image", e);
         }
     }
-
-
 }

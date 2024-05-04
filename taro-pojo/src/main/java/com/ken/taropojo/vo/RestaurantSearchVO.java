@@ -18,7 +18,7 @@ public class RestaurantSearchVO implements Serializable{
     private Long id;
 
     @ApiModelProperty("餐廳名稱")
-    private String name;
+    private String restName;
 
     @ApiModelProperty("餐廳地址")
     private String address;
@@ -28,4 +28,7 @@ public class RestaurantSearchVO implements Serializable{
 
     @ApiModelProperty("餐廳圖片") // I need to store picture in url
     private String url;
+
+    @ApiModelProperty("是否為收藏餐廳")
+    private Integer isFav;
 }

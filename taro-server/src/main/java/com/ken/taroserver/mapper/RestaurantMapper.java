@@ -30,5 +30,14 @@ public interface RestaurantMapper {
   @Select("select * from restaurants where rest_name = #{name}")
   Restaurant findByRestName(String name);
 
+  @Select("select * from favorite_restaurants where user_id = #{userId} and rest_id = #{restId}")
+  Boolean findIsFav(Long userId, Long restId);
+
+  @Insert("insert into status_want_to_eats (user_id, rest_id) VALUES (#{userId}, #{restId})")
+    void addUsersWantToEat(Long userId, Long restId);
+
+
+
+
     
 }
